@@ -1,11 +1,12 @@
 //+------------------------------------------------------------------+
 //|                                                     UnitTest.mqh |
+//|                        Unittest framework for Metatrader 4 (MT4) |
 //|             Licensed under GNU GENERAL PUBLIC LICENSE Version 3. |
 //|                    See a LICENSE file for detail of the license. |
-//|                                    Copyright © 2014, FemtoTrader |
+//|                                    Copyright ï¿½ 2014, FemtoTrader |
 //|                       https://sites.google.com/site/femtotrader/ |
 //+------------------------------------------------------------------+
-#property copyright "Copyright © 2014, FemtoTrader"
+#property copyright "Copyright ï¿½ 2014, FemtoTrader"
 #property link      "https://sites.google.com/site/femtotrader/"
 #property version   "1.00"
 #property strict
