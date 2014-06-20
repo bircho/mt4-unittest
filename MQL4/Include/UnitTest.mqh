@@ -134,7 +134,7 @@ void UnitTest::initUnitTest(void)
 //+------------------------------------------------------------------+
 void UnitTest::addTest(string test_name)
   {
-   Print(StringConcatenate(UT_SPACE_TESTCASE,m_current_test_name,UT_SEP,"Running new test case"));
+   Print(StringConcatenate(UT_SPACE_TESTCASE,m_current_test_name,UT_SEP,"Running new unit test"));
 
    m_current_test_name=test_name;
 
