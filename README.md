@@ -17,8 +17,8 @@ Some knowledges about MQL, unit testing and test driven development.
 Installation
 --------------
 1. Git clone this repository
-2. Copy [MQL4/Include/UnitTest.mqh] to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Include``
-3. Copy [MQL4/Experts/test_unittest.mq4] to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Experts``
+2. Copy ``MQL4/Include/UnitTest.mqh`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Include``
+3. Copy ``MQL4/Experts/test_unittest.mq4`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Experts``
 4. Drag and drop experts ``test_unittest.mq4`` to a chart
 5. Have a look at Experts tab. You should get log message with either "OK" or "***FAIL***"
 6. Modify test_unittest to test your MQL code
