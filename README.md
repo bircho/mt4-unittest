@@ -20,7 +20,7 @@ Installation
 2. Copy ``MQL4/Include/UnitTest.mqh`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Include``
 3. Copy ``MQL4/Experts/test_unittest.mq4`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Experts``
 4. Enable AutoTrading ![AutoTrading](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/autotrading_enabled.png)
-5. Drag and drop experts ``test_unittest.mq4`` to a chart ![EA_running](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/ea_attached.png)
+5. Drag and drop expert advisor ``test_unittest.mq4`` to a chart ![EA_running](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/ea_attached.png)
 6. See top left comment message. You will get something like
 ![comment_summary_ok](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/comment_summary_ok.png) if unit test is passing fine or, if unit test fails:  ![comment_summary_fail](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/comment_summary_fail.png)
 7. Have a look at Experts tab. You should get log message with either "OK" or "***FAIL***" for the whole unit test but also for each test case (with statistics for each asserts)
