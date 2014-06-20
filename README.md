@@ -25,7 +25,7 @@ Installation
 ![comment_summary_ok](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/comment_summary_ok.png) if unit test is passing fine or, if unit test fails:  ![comment_summary_fail](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/comment_summary_fail.png)
 7. Have a look at Experts tab. You should get log message with either "OK" or "***FAIL***" for the whole unit test but also for each test case (with statistics for each asserts)
 ![ExpertsTab](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/experts_tab.png)
-8. Modify test_unittest to test your MQL code
+8. Modify `test_unittest.mq4` to test your own MQL code
 
 Experts tab log messages sample
 -------------------------------
