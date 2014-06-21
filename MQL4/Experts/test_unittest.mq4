@@ -12,6 +12,8 @@
 
 
 #include <UnitTest.mqh>
+#include <UnitTest_config.mqh>
+
 //--- The derived class MyUnitTest
 class MyUnitTest : public UnitTest        // After a colon we define the base class
   {                                       // from which inheritance is made
@@ -41,7 +43,7 @@ private:
      {
       unittest.addTest(__FUNCTION__);
       unittest.assertTrue("assertTrue should succeed", true);
-      //unittest.assertTrue("assertTrue should fail", false); // comment this line to pass unit test
+      unittest.assertTrue("assertTrue should fail",false); // comment this line to pass unit test
       unittest.assertTrue("assertTrue should succeed",true);
      }
 
@@ -129,46 +131,13 @@ MyUnitTest *unittest;
 
 input int paramMAPeriod=13;
 
-// This is must be false if release version
-input bool g_unit_testing=true; //Enable unit testing
-input bool g_unit_testing_OnInit=true; //Run unit testing when OnInit events occurs
-input bool g_unit_testing_OnLoop=false; //Run unit testing when loop occurs
-input bool g_unit_testing_OnTick=false; //Run unit testing when OnTick events occurs
-input bool g_alert_when_failed=true; //Alert message when assert failed
-input int g_loop_ms=500; //Loop delay (ms)
+
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit()
   {
-//---
-   if(g_unit_testing)
-     {
-      unittest=new MyUnitTest();
-     }
-
-   if(g_unit_testing_OnInit)
-     {
-      unittest.runAllTests();
-     }
-
-   if(g_unit_testing_OnLoop)
-     {
-      datetime prev_time=TimeLocal();
-      while(true)
-        {
-         if((TimeLocal()-prev_time)>=1) //Do stuff once per second
-           {
-            prev_time=TimeLocal();
-
-            unittest.runAllTests();
-
-           }
-         Sleep(g_loop_ms);
-        }
-     }
-
-//---
+   UT_OnInit();
    return(INIT_SUCCEEDED);
   }
 //+------------------------------------------------------------------+
@@ -176,24 +145,14 @@ int OnInit()
 //+------------------------------------------------------------------+
 void OnDeinit(const int reason)
   {
-//---
-   if(g_unit_testing)
-     {
-      unittest.printSummary();
-     }
-
-   delete unittest;
+   UT_OnDeinit();
   }
 //+------------------------------------------------------------------+
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
 void OnTick()
   {
-//---
-   if(g_unit_testing && g_unit_testing_OnTick)
-     {
-      unittest.runAllTests();
-     }
+   UT_OnTick();
   }
 //+------------------------------------------------------------------+
 //|                                                                  |

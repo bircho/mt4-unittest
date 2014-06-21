@@ -909,4 +909,49 @@ string BooleanToString(bool b)
      }
   }
 
+
+void UT_OnInit() {
+   if(g_unit_testing)
+     {
+      unittest=new MyUnitTest();
+     }
+
+   if(g_unit_testing_OnInit)
+     {
+      unittest.runAllTests();
+     }
+
+   if(g_unit_testing_OnLoop)
+     {
+      datetime prev_time=TimeLocal();
+      while(true)
+        {
+         if((TimeLocal()-prev_time)>=1) //Do stuff once per second
+           {
+            prev_time=TimeLocal();
+
+            unittest.runAllTests();
+
+           }
+         Sleep(g_loop_ms);
+        }
+     }
+}
+
+void UT_OnDeinit() {
+   if(g_unit_testing)
+     {
+      unittest.printSummary();
+     }
+
+   delete unittest;
+}
+
+void UT_OnTick() {
+   if(g_unit_testing && g_unit_testing_OnTick)
+     {
+      unittest.runAllTests();
+     }
+}
+
 //+------------------------------------------------------------------+
