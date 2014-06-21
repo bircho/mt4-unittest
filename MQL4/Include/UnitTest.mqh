@@ -1,12 +1,11 @@
 //+------------------------------------------------------------------+
 //|                                                     UnitTest.mqh |
-//|                        Unittest framework for Metatrader 4 (MT4) |
 //|             Licensed under GNU GENERAL PUBLIC LICENSE Version 3. |
 //|                    See a LICENSE file for detail of the license. |
-//|                                    Copyright ï¿½ 2014, FemtoTrader |
+//|                                    Copyright © 2014, FemtoTrader |
 //|                       https://sites.google.com/site/femtotrader/ |
 //+------------------------------------------------------------------+
-#property copyright "Copyright ï¿½ 2014, FemtoTrader"
+#property copyright "Copyright © 2014, FemtoTrader"
 #property link      "https://sites.google.com/site/femtotrader/"
 #property version   "1.00"
 #property strict
@@ -16,6 +15,7 @@
 #define UT_SEP " - "
 #define UT_COMP_EXP_ACT "%s: expected is <%s> but <%s>"
 #define UT_COMP_ARR_EXP_ACT "%s: expected array[%d] is <%s> but <%s>"
+#define UT_DEFAULT_ASSERT_MESSAGE "assert should succeed"
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
@@ -41,44 +41,44 @@ public:
    void              initTestCase(void);
    void              endTestCase(void);
 
-   void              assertTrue(string message,bool actual);
-   void              assertFalse(string message,bool actual);
+   void              assertTrue(bool actual,string message);
+   void              assertFalse(bool actual,string message);
 
-   void              assertEquals(string message,bool expected,bool actual);
-   void              assertEquals(string message,char expected,char actual);
-   void              assertEquals(string message,uchar expected,uchar actual);
-   void              assertEquals(string message,short expected,short actual);
-   void              assertEquals(string message,ushort expected,ushort actual);
-   void              assertEquals(string message,int expected,int actual);
-   void              assertEquals(string message,uint expected,uint actual);
-   void              assertEquals(string message,long expected,long actual);
-   void              assertEquals(string message,ulong expected,ulong actual);
-   void              assertEquals(string message,datetime expected,datetime actual);
-   void              assertEquals(string message,color expected,color actual);
-   void              assertEquals(string message,float expected,float actual);
-   void              assertEquals(string message,double expected,double actual);
-   void              assertEquals(string message,string expected,string actual);
+   void              assertEquals(bool actual,bool expected,string message);
+   void              assertEquals(char actual,char expected,string message);
+   void              assertEquals(uchar actual,uchar expected,string message);
+   void              assertEquals(short actual,short expected,string message);
+   void              assertEquals(ushort actual,ushort expected,string message);
+   void              assertEquals(int actual,int expected,string message);
+   void              assertEquals(uint actual,uint expected,string message);
+   void              assertEquals(long actual,long expected,string message);
+   void              assertEquals(ulong actual,ulong expected,string message);
+   void              assertEquals(datetime actual,datetime expected,string message);
+   void              assertEquals(color actual,color expected,string message);
+   void              assertEquals(float actual,float expected,string message);
+   void              assertEquals(double actual,double expected,string message);
+   void              assertEquals(string actual,string expected,string message);
 
-   void              assertEquals(string message,const bool &expected[],const bool &actual[]);
-   void              assertEquals(string message,const char &expected[],const char &actual[]);
-   void              assertEquals(string message,const uchar &expected[],const uchar &actual[]);
-   void              assertEquals(string message,const short &expected[],const short &actual[]);
-   void              assertEquals(string message,const ushort &expected[],const ushort &actual[]);
-   void              assertEquals(string message,const int &expected[],const int &actual[]);
-   void              assertEquals(string message,const uint &expected[],const uint &actual[]);
-   void              assertEquals(string message,const long &expected[],const long &actual[]);
-   void              assertEquals(string message,const ulong &expected[],const ulong &actual[]);
-   void              assertEquals(string message,const datetime &expected[],const datetime &actual[]);
-   void              assertEquals(string message,const color &expected[],const color &actual[]);
-   void              assertEquals(string message,const float &expected[],const float &actual[]);
-   void              assertEquals(string message,const double &expected[],const double &actual[]);
-   void              assertEquals(string message,const string &expected[],const string &actual[]);
+   void              assertEquals(const bool &expected[],const bool &actual[],string message);
+   void              assertEquals(const char &expected[],const char &actual[],string message);
+   void              assertEquals(const uchar &expected[],const uchar &actual[],string message);
+   void              assertEquals(const short &expected[],const short &actual[],string message);
+   void              assertEquals(const ushort &expected[],const ushort &actual[],string message);
+   void              assertEquals(const int &expected[],const int &actual[],string message);
+   void              assertEquals(const uint &expected[],const uint &actual[],string message);
+   void              assertEquals(const long &expected[],const long &actual[],string message);
+   void              assertEquals(const ulong &expected[],const ulong &actual[],string message);
+   void              assertEquals(const datetime &expected[],const datetime &actual[],string message);
+   void              assertEquals(const color &expected[],const color &actual[],string message);
+   void              assertEquals(const float &expected[],const float &actual[],string message);
+   void              assertEquals(const double &expected[],const double &actual[],string message);
+   void              assertEquals(const string &expected[],const string &actual[],string message);
 
 protected:
    string            m_current_test_name;
 
 private:
-   void              __assertTrue(string message,bool expected,bool actual);
+   void              __assertTrue(bool actual,bool expected,string message);
 
    int               m_test_count;
    int               m_test_count_fail;
@@ -98,7 +98,7 @@ private:
    void              printUnitTestSummary();
    void              printTestCaseSummary(void);
 
-   bool              assertArraySize(string message,const int expectedSize,const int actualSize);
+   bool              assertArraySize(const int actualSize,const int expectedSize,string message);
 
   };
 //+------------------------------------------------------------------+
@@ -118,6 +118,7 @@ UnitTest::~UnitTest(void)
 //+------------------------------------------------------------------+
 void UnitTest::initUnitTest(void)
   {
+   Comment("");
    Print("UnitTest - start");
    Print("================");
 
@@ -158,7 +159,7 @@ void UnitTest::endTestCase(void)
   {
    printTestCaseSummary();
 
-   if(m_current_assert_count_fail!=0)
+   if(m_current_assert_count_fail!=0 || m_current_assert_count==0)
      {
       m_test_count_fail+=1;
      }
@@ -277,7 +278,7 @@ void UnitTest::setAssertSuccess(string message)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::__assertTrue(string message,bool expected,bool actual)
+void UnitTest::__assertTrue(bool actual,bool expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -294,38 +295,21 @@ void UnitTest::__assertTrue(string message,bool expected,bool actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertTrue(string message,bool actual)
+void UnitTest::assertTrue(bool actual,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
-   __assertTrue(message,true,actual);
+   __assertTrue(true,actual,message);
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertFalse(string message,bool actual)
+void UnitTest::assertFalse(bool actual,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
-   __assertTrue(message,false,actual);
+   __assertTrue(false,actual,message);
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,char expected,char actual)
-  {
-   addAssert();
-
-   if(actual==expected)
-     {
-      setAssertSuccess(message);
-     }
-   else
-     {
-      message=StringFormat(UT_COMP_EXP_ACT,message,CharToString(expected),CharToString(actual));
-      setAssertFailure(message);
-     }
-  }
-//+------------------------------------------------------------------+
-//|                                                                  |
-//+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,uchar expected,uchar actual)
+void UnitTest::assertEquals(char actual,char expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -342,7 +326,24 @@ void UnitTest::assertEquals(string message,uchar expected,uchar actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,short expected,short actual)
+void UnitTest::assertEquals(uchar actual,uchar expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
+  {
+   addAssert();
+
+   if(actual==expected)
+     {
+      setAssertSuccess(message);
+     }
+   else
+     {
+      message=StringFormat(UT_COMP_EXP_ACT,message,CharToString(expected),CharToString(actual));
+      setAssertFailure(message);
+     }
+  }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void UnitTest::assertEquals(short actual,short expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -359,7 +360,7 @@ void UnitTest::assertEquals(string message,short expected,short actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,ushort expected,ushort actual)
+void UnitTest::assertEquals(ushort actual,ushort expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -376,7 +377,7 @@ void UnitTest::assertEquals(string message,ushort expected,ushort actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,int expected,int actual)
+void UnitTest::assertEquals(int actual,int expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -393,7 +394,7 @@ void UnitTest::assertEquals(string message,int expected,int actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,uint expected,uint actual)
+void UnitTest::assertEquals(uint actual,uint expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -410,7 +411,7 @@ void UnitTest::assertEquals(string message,uint expected,uint actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,long expected,long actual)
+void UnitTest::assertEquals(long actual,long expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -427,7 +428,7 @@ void UnitTest::assertEquals(string message,long expected,long actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,ulong expected,ulong actual)
+void UnitTest::assertEquals(ulong actual,ulong expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -444,7 +445,7 @@ void UnitTest::assertEquals(string message,ulong expected,ulong actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,datetime expected,datetime actual)
+void UnitTest::assertEquals(datetime actual,datetime expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -461,7 +462,7 @@ void UnitTest::assertEquals(string message,datetime expected,datetime actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,color expected,color actual)
+void UnitTest::assertEquals(color actual,color expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -478,7 +479,7 @@ void UnitTest::assertEquals(string message,color expected,color actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,float expected,float actual)
+void UnitTest::assertEquals(float actual,float expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -495,7 +496,7 @@ void UnitTest::assertEquals(string message,float expected,float actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,double expected,double actual)
+void UnitTest::assertEquals(double actual,double expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -512,7 +513,7 @@ void UnitTest::assertEquals(string message,double expected,double actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,string expected,string actual)
+void UnitTest::assertEquals(string actual,string expected,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
 
@@ -529,7 +530,7 @@ void UnitTest::assertEquals(string message,string expected,string actual)
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-bool UnitTest::assertArraySize(string message,const int expectedSize,const int actualSize)
+bool UnitTest::assertArraySize(const int expectedSize,const int actualSize,string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    if(actualSize==expectedSize)
@@ -549,13 +550,13 @@ bool UnitTest::assertArraySize(string message,const int expectedSize,const int a
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const bool &expected[],const bool &actual[])
+void UnitTest::assertEquals(const bool &actual[],const bool &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -576,13 +577,13 @@ void UnitTest::assertEquals(string message,const bool &expected[],const bool &ac
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const char &expected[],const char &actual[])
+void UnitTest::assertEquals(const char &actual[],const char &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -603,13 +604,13 @@ void UnitTest::assertEquals(string message,const char &expected[],const char &ac
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const uchar &expected[],const uchar &actual[])
+void UnitTest::assertEquals(const uchar &actual[],const uchar &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -630,13 +631,13 @@ void UnitTest::assertEquals(string message,const uchar &expected[],const uchar &
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const short &expected[],const short &actual[])
+void UnitTest::assertEquals(const short &actual[],const short &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -657,13 +658,13 @@ void UnitTest::assertEquals(string message,const short &expected[],const short &
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const ushort &expected[],const ushort &actual[])
+void UnitTest::assertEquals(const ushort &actual[],const ushort &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -684,13 +685,13 @@ void UnitTest::assertEquals(string message,const ushort &expected[],const ushort
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const int &expected[],const int &actual[])
+void UnitTest::assertEquals(const int &actual[],const int &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -711,13 +712,13 @@ void UnitTest::assertEquals(string message,const int &expected[],const int &actu
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const uint &expected[],const uint &actual[])
+void UnitTest::assertEquals(const uint &actual[],const uint &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -738,13 +739,13 @@ void UnitTest::assertEquals(string message,const uint &expected[],const uint &ac
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const long &expected[],const long &actual[])
+void UnitTest::assertEquals(const long &actual[],const long &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -765,13 +766,13 @@ void UnitTest::assertEquals(string message,const long &expected[],const long &ac
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const ulong &expected[],const ulong &actual[])
+void UnitTest::assertEquals(const ulong &actual[],const ulong &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -792,13 +793,13 @@ void UnitTest::assertEquals(string message,const ulong &expected[],const ulong &
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const datetime &expected[],const datetime &actual[])
+void UnitTest::assertEquals(const datetime &actual[],const datetime &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -819,13 +820,13 @@ void UnitTest::assertEquals(string message,const datetime &expected[],const date
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const color &expected[],const color &actual[])
+void UnitTest::assertEquals(const color &actual[],const color &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -846,13 +847,13 @@ void UnitTest::assertEquals(string message,const color &expected[],const color &
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const float &expected[],const float &actual[])
+void UnitTest::assertEquals(const float &actual[],const float &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -873,13 +874,13 @@ void UnitTest::assertEquals(string message,const float &expected[],const float &
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-void UnitTest::assertEquals(string message,const double &expected[],const double &actual[])
+void UnitTest::assertEquals(const double &actual[],const double &expected[],string message=UT_DEFAULT_ASSERT_MESSAGE)
   {
    addAssert();
    const int expectedSize=ArraySize(expected);
    const int actualSize=ArraySize(actual);
 
-   if(!assertArraySize(message,expectedSize,actualSize))
+   if(!assertArraySize(expectedSize,actualSize,message))
      {
       return;
      }
@@ -909,9 +910,11 @@ string BooleanToString(bool b)
       return("false");
      }
   }
-
-
-void UT_OnInit() {
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void UT_OnInit()
+  {
    if(g_unit_testing)
      {
       unittest=new MyUnitTest();
@@ -937,22 +940,28 @@ void UT_OnInit() {
          Sleep(g_loop_ms);
         }
      }
-}
-
-void UT_OnDeinit() {
+  }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void UT_OnDeinit()
+  {
    if(g_unit_testing)
      {
       unittest.printSummary();
      }
 
    delete unittest;
-}
-
-void UT_OnTick() {
+  }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void UT_OnTick()
+  {
    if(g_unit_testing && g_unit_testing_OnTick)
      {
       unittest.runAllTests();
      }
-}
+  }
 
 //+------------------------------------------------------------------+
