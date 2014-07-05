@@ -17,8 +17,8 @@ Some knowledges about MQL, unit testing and test driven development.
 Installation
 --------------
 1. Git clone this repository
-2. Copy ``MQL4/Include/UnitTest.mqh`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Include``
-3. Copy ``MQL4/Experts/test_unittest.mq4`` to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Experts``
+2. Copy [``MQL4/Include/UnitTest.mqh``](https://github.com/femtotrader/mt4-unittest/blob/master/MQL4/Include/UnitTest.mqh) and also [``MQL4/Include/UnitTest_config.mqh``](https://github.com/femtotrader/mt4-unittest/blob/master/MQL4/Include/UnitTest_config.mqh) to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Include``
+3. Copy [``MQL4/Experts/test_unittest.mq4``](https://github.com/femtotrader/mt4-unittest/blob/master/MQL4/Experts/test_unittest.mq4) to ``%APPDATA%/MetaQuotes/Terminal/<ID>/MQL4/Experts``
 4. Enable AutoTrading ![AutoTrading](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/autotrading_enabled.png)
 5. Drag and drop expert advisor ``test_unittest.mq4`` to a chart ![EA_running](https://raw.githubusercontent.com/femtotrader/mt4-unittest/master/screenshots/ea_attached.png)
 6. See top left comment message. You will get something like
