@@ -1,6 +1,7 @@
 mt4-unittest
 ===============
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/femtotrader/mt4-unittest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![status](https://sourcegraph.com/api/repos/github.com/femtotrader/mt4-unittest/.badges/status.png)](https://sourcegraph.com/github.com/femtotrader/mt4-unittest)
 
 Description
