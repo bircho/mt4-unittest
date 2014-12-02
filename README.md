@@ -4,6 +4,10 @@ mt4-unittest
 
 [![status](https://sourcegraph.com/api/repos/github.com/femtotrader/mt4-unittest/.badges/status.png)](https://sourcegraph.com/github.com/femtotrader/mt4-unittest)
 
+[![views](https://sourcegraph.com/api/repos/github.com/femtotrader/mt4-unittest/.counters/views.png?no-count=1)](https://sourcegraph.com/github.com/femtotrader/mt4-unittest)
+
+[![views 24h](https://sourcegraph.com/api/repos/github.com/femtotrader/mt4-unittest/.counters/views-24h.png)](https://sourcegraph.com/github.com/femtotrader/mt4-unittest)
+
 Description
 -------------
 
